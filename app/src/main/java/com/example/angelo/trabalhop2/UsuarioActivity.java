@@ -59,12 +59,10 @@ public class UsuarioActivity extends Activity {
         Usuario usuario = new Usuario(nome.getText().toString(), login.getText().toString(),senha.getText().toString());
         try {
             base = new UsuarioDbHelper(getApplicationContext());
+            /* Exibir Mensagem */
             Toast.makeText(context, "Usuário cadastrado com sucesso", Toast.LENGTH_LONG).show();
             /* Usuário salvo, voltar a tela de login */
-            Bundle params = null; // usa-se pra passar parametros de uma tela pra outra
-            Intent iPrincipal = new Intent(this, LoginActivity.class);
-            iPrincipal.putExtras(params);
-            startActivity(iPrincipal);
+            retornar_login(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,10 +70,14 @@ public class UsuarioActivity extends Activity {
 
     private void cancelar (Context context) {
         /* Voltar a tela de login */
-        Bundle params = null; // usa-se pra passar parametros de uma tela pra outra
-        Intent iPrincipal = new Intent(this, LoginActivity.class);
-        iPrincipal.putExtras(params);
-        startActivity(iPrincipal);
+        retornar_login(this);
+    }
+
+    private void retornar_login (Context context) {
+        Bundle params = new Bundle(); // usa-se pra passar parametros de uma tela pra outra
+        Intent iLogin = new Intent(this, LoginActivity.class);
+        iLogin.putExtras(params);
+        startActivity(iLogin);
     }
 
     /*

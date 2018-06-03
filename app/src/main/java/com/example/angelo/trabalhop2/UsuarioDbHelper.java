@@ -17,6 +17,7 @@ public class UsuarioDbHelper extends SQLiteOpenHelper {
             + TreinoContract.UsuarioDb.COLUMN_NOME + " text, "
             + TreinoContract.UsuarioDb.COLUMN_LOGIN + " text, "
             + TreinoContract.UsuarioDb.COLUMN_SENHA + " text)";
+
     private static final String DELETEUSUARIO = "drop table if exists " + TreinoContract.UsuarioDb.TABLE_NAME;
 
     public UsuarioDbHelper(Context context) {
@@ -55,4 +56,30 @@ public class UsuarioDbHelper extends SQLiteOpenHelper {
         usuario.setId(id);
         return true;
     }
+
+    public Usuario login(String login, String senha) {
+        /* Variáveis do BD */
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        /* Variáveis do Método*/
+        // criando usuário com valor incorreto para erro
+        Usuario usuario = new Usuario(-1L, "erro", "erro", "erro");
+
+        String colunas[] = {"_ID", "COLUMN_NOME", "COLUMN_LOGIN", "COLUMN_SENHA"};
+        String selecao = "COLUMN_LOGIN" + " =? AND " + "COLUMN_SENHA" + " =? ";
+        String valores[] = {login,senha};
+
+        /* Realizando busca no banco de dados */
+        Cursor cursor =  db.query(TreinoContract.UsuarioDb.TABLE_NAME, colunas, selecao, valores, null, null, null, null);
+        if (cursor.moveToFirst()) {
+            usuario.setId(cursor.getLong(cursor.getColumnIndex("_ID")));
+            usuario.setNome(cursor.getString(cursor.getColumnIndex("COLUMN_NOME")));
+            usuario.setLogin(cursor.getString(cursor.getColumnIndex("COLUMN_LOGIN")));
+            usuario.setNome(cursor.getString(cursor.getColumnIndex("COLUMN_SENHA")));
+        }
+
+        return usuario;
+    }
+
+
 }
