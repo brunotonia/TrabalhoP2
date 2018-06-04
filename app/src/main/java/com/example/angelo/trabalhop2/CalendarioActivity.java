@@ -1,5 +1,6 @@
 package com.example.angelo.trabalhop2;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -12,30 +13,39 @@ import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
 
-public class CalendarioActivity extends AppCompatActivity  {
+public class CalendarioActivity extends Activity {
 
+    /* Variáveis de BD */
     private TreinoDbHelper base;
     private SQLiteDatabase db;
+    /* Variáveis de Tela*/
     private EditText exercicio, repeticao, carga, intervalo;
     private CalendarView calendario;
     private ListView listView;
     private ArrayAdapter<String> arrayAdapter;
-
-
+    /* Variáveis Globais */
+    private Intent it = null;
+    private Bundle params = null;
+    private Usuario usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendario);
 
+        /*Recuperando informações do usuário da tela de login */
+        recuperarParams();
+
+        /* Inicializando interface */
         base = new TreinoDbHelper(getApplicationContext());
         exercicio = (EditText)findViewById(R.id.edExercicio);
         repeticao = (EditText)findViewById(R.id.edRepeticao);
         carga = (EditText)findViewById(R.id.edCarga);
         intervalo = (EditText)findViewById(R.id.edIntervalo);
 
-        CalendarView calendario;
+        final CalendarView calendario;
 
         calendario = (CalendarView)findViewById(R.id.calendarView);
         calendario.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -55,6 +65,7 @@ public class CalendarioActivity extends AppCompatActivity  {
                 builder.setTitle("Selecione uma opção").setItems(itens, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
                         if (which==0){
                             Intent intent = new Intent(getApplicationContext(), AddActivity.class);
                             Bundle bundle = new Bundle();
@@ -72,6 +83,8 @@ public class CalendarioActivity extends AppCompatActivity  {
                 });
                 AlertDialog dialog = builder.create();
                 dialog.show();
+                // um toast pra ver o "id" da data, vai ter que refazer as tabelas com um long contendo a data
+                Toast.makeText(CalendarioActivity.this, new Long(calendario.getDate()).toString(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -82,6 +95,13 @@ public class CalendarioActivity extends AppCompatActivity  {
         lista.setAdapter(arrayAd);
     }
 
+    /* Recuperar params */
+    private void recuperarParams() {
+        it = getIntent();
+        params = it.getExtras();
+        usuario = new Usuario(params.getLong("usuarioId"), params.getString("usuarioNome"),
+                params.getString("usuarioLogin"), params.getString("usuarioSenha"));
+    }
 
 
 }

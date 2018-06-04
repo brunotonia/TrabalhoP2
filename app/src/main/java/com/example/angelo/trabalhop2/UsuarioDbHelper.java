@@ -46,15 +46,18 @@ public class UsuarioDbHelper extends SQLiteOpenHelper {
         super.onDowngrade(db, oldVersion, newVersion);
     }
 
-    public boolean salvarUsuario(Usuario usuario){
+    public boolean salvarUsuario(Usuario usuario) {
+        /* Variáveis do BD */
         SQLiteDatabase db = this.getWritableDatabase();
+        /* Parametros do banco de dados */
         ContentValues contentValues = new ContentValues();
         contentValues.put(TreinoContract.UsuarioDb.COLUMN_NOME, usuario.getNome());
         contentValues.put(TreinoContract.UsuarioDb.COLUMN_LOGIN, usuario.getLogin());
         contentValues.put(TreinoContract.UsuarioDb.COLUMN_SENHA, usuario.getSenha());
-        long id = db.insert(TreinoContract.TreinoDb.TABLE_NAME, null, contentValues);
-        usuario.setId(id);
-        return true;
+        /* Inserindo no Banco de Dados */
+        Long l = db.insert(TreinoContract.UsuarioDb.TABLE_NAME, null, contentValues);
+
+        return (l != -1L);
     }
 
     public Usuario login(String login, String senha) {
@@ -65,19 +68,20 @@ public class UsuarioDbHelper extends SQLiteOpenHelper {
         // criando usuário com valor incorreto para erro
         Usuario usuario = new Usuario(-1L, "erro", "erro", "erro");
 
-        String colunas[] = {"_ID", "COLUMN_NOME", "COLUMN_LOGIN", "COLUMN_SENHA"};
-        String selecao = "COLUMN_LOGIN" + " =? AND " + "COLUMN_SENHA" + " =? ";
+        String colunas[] = {TreinoContract.UsuarioDb._ID, TreinoContract.UsuarioDb.COLUMN_NOME,
+                TreinoContract.UsuarioDb.COLUMN_LOGIN, TreinoContract.UsuarioDb.COLUMN_SENHA};
+        String selecao = TreinoContract.UsuarioDb.COLUMN_LOGIN + " =? AND " + TreinoContract.UsuarioDb.COLUMN_SENHA + " =? ";
         String valores[] = {login,senha};
 
         /* Realizando busca no banco de dados */
-        Cursor cursor =  db.query(TreinoContract.UsuarioDb.TABLE_NAME, colunas, selecao, valores, null, null, null, null);
+        Cursor cursor =  db.query(TreinoContract.UsuarioDb.TABLE_NAME, colunas, selecao, valores,
+                null, null, null, null);
         if (cursor.moveToFirst()) {
-            usuario.setId(cursor.getLong(cursor.getColumnIndex("_ID")));
-            usuario.setNome(cursor.getString(cursor.getColumnIndex("COLUMN_NOME")));
-            usuario.setLogin(cursor.getString(cursor.getColumnIndex("COLUMN_LOGIN")));
-            usuario.setNome(cursor.getString(cursor.getColumnIndex("COLUMN_SENHA")));
+            usuario.setId(cursor.getLong(cursor.getColumnIndex(TreinoContract.UsuarioDb._ID)));
+            usuario.setNome(cursor.getString(cursor.getColumnIndex(TreinoContract.UsuarioDb.COLUMN_NOME)));
+            usuario.setLogin(cursor.getString(cursor.getColumnIndex(TreinoContract.UsuarioDb.COLUMN_LOGIN)));
+            usuario.setNome(cursor.getString(cursor.getColumnIndex(TreinoContract.UsuarioDb.COLUMN_SENHA)));
         }
-
         return usuario;
     }
 

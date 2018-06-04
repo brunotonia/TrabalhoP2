@@ -52,14 +52,27 @@ public class LoginActivity extends Activity {
             Toast.makeText(context, "id " + usuario.getId() + "!", Toast.LENGTH_LONG).show();
             if (usuario.getId() != -1L) {
                 Toast.makeText(context, "Bem Vindo " + usuario.getNome() + "!", Toast.LENGTH_LONG).show();
-
+                ir_calendario(this, usuario);
             } else {
                 Toast.makeText(context, "Usuário ou Senha incorretos", Toast.LENGTH_LONG).show();
             }
         } catch (Exception e) {
-            //Toast.makeText(context, "Erro - Não foi possível logar", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Erro - Não foi possível logar", Toast.LENGTH_LONG).show();
 
         }
+    }
+
+    private void ir_calendario (Context context, Usuario usuario) {
+        Bundle params = new Bundle();
+        /* carregando paramentros de uma tela a outra */
+        params.putLong("usuarioId", usuario.getId());
+        params.putString("usuarioNome", usuario.getNome());
+        params.putString("usuarioLogin", usuario.getLogin());
+        params.putString("usuarioSenha", usuario.getSenha());
+        /* iniciando nova tela*/
+        Intent iLogin = new Intent(this, CalendarioActivity.class);
+        iLogin.putExtras(params);
+        startActivity(iLogin);
     }
 
     /* simplificando e colocando no listener */

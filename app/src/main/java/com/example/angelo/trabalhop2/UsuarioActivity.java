@@ -16,7 +16,7 @@ import android.widget.Toast;
 // para:
 public class UsuarioActivity extends Activity {
 
-    private UsuarioDbHelper base;
+    //private UsuarioDbHelper base;
     private EditText nome, login, senha;
     private Button salvar, cancelar;
 
@@ -58,11 +58,16 @@ public class UsuarioActivity extends Activity {
     private void salvar(Context context) {
         Usuario usuario = new Usuario(nome.getText().toString(), login.getText().toString(),senha.getText().toString());
         try {
-            base = new UsuarioDbHelper(getApplicationContext());
-            /* Exibir Mensagem */
-            Toast.makeText(context, "Usuário cadastrado com sucesso", Toast.LENGTH_LONG).show();
-            /* Usuário salvo, voltar a tela de login */
-            retornar_login(this);
+            UsuarioDbHelper base = new UsuarioDbHelper(getApplicationContext());
+            boolean resposta = base.salvarUsuario(usuario);
+            if (resposta) {
+                /* Exibir Mensagem */
+                Toast.makeText(context, "Usuário cadastrado com sucesso", Toast.LENGTH_LONG).show();
+                /* Usuário salvo, voltar a tela de login */
+                retornar_login(this);
+            } else {
+                Toast.makeText(context, "Não foi possível cadastrar usuário", Toast.LENGTH_LONG).show();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
