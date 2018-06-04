@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -20,7 +19,7 @@ public class CalendarioActivity extends Activity {
     /* Variáveis de BD */
     private TreinoDbHelper base;
     private SQLiteDatabase db;
-    /* Variáveis de Tela*/
+    /* Variáveis de Tela */
     private EditText exercicio, repeticao, carga, intervalo;
     private CalendarView calendario;
     private ListView listView;
@@ -101,6 +100,16 @@ public class CalendarioActivity extends Activity {
         params = it.getExtras();
         usuario = new Usuario(params.getLong("usuarioId"), params.getString("usuarioNome"),
                 params.getString("usuarioLogin"), params.getString("usuarioSenha"));
+    }
+
+    private void carregarParams() {
+        params = new Bundle();
+        /* carregando paramentros de uma tela a outra */
+        params.putLong("usuarioId", usuario.getId());
+        params.putString("usuarioNome", usuario.getNome());
+        params.putString("usuarioLogin", usuario.getLogin());
+        params.putString("usuarioSenha", usuario.getSenha());
+        /* Adicionar data para cadastrar e buscar */
     }
 
 

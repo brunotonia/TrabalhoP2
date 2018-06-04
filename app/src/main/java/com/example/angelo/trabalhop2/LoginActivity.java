@@ -11,11 +11,12 @@ import android.widget.Toast;
 
 public class LoginActivity extends Activity {
 
-    /* Ainda não achei pq inicalizar aqui */
-    //private UsuarioDbHelper base;
-    //private SQLiteDatabase db;
+    /* Variáveis de Tela */
     private Button entrar, novo;
     private EditText edUsuario, edSenha;
+    /* Variáveis de Sessão */
+    private Bundle params = new Bundle();
+    private Usuario usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class LoginActivity extends Activity {
 
     private void entrar (Context context, String login, String senha) {
         try {
-            Usuario usuario = new UsuarioDbHelper(context).login(login, senha);
+            usuario = new UsuarioDbHelper(context).login(login, senha);
             Toast.makeText(context, "id " + usuario.getId() + "!", Toast.LENGTH_LONG).show();
             if (usuario.getId() != -1L) {
                 Toast.makeText(context, "Bem Vindo " + usuario.getNome() + "!", Toast.LENGTH_LONG).show();
@@ -58,26 +59,26 @@ public class LoginActivity extends Activity {
             }
         } catch (Exception e) {
             Toast.makeText(context, "Erro - Não foi possível logar", Toast.LENGTH_LONG).show();
-
         }
     }
 
+    /* Método para ir a tela Calendário */
     private void ir_calendario (Context context, Usuario usuario) {
-        Bundle params = new Bundle();
-        /* carregando paramentros de uma tela a outra */
-        params.putLong("usuarioId", usuario.getId());
-        params.putString("usuarioNome", usuario.getNome());
-        params.putString("usuarioLogin", usuario.getLogin());
-        params.putString("usuarioSenha", usuario.getSenha());
+        carregarParams();
         /* iniciando nova tela*/
         Intent iLogin = new Intent(this, CalendarioActivity.class);
         iLogin.putExtras(params);
         startActivity(iLogin);
     }
 
-    /* simplificando e colocando no listener */
-    /*public void novoUsuario(Conten content){
-        Intent intent = new Intent(getApplicationContext(),UsuarioActivity.class);
-        startActivity(intent);
-    }*/
+    /* Carregar Parametros de Tela */
+    private void carregarParams() {
+        params = new Bundle();
+        /* carregando paramentros de uma tela a outra */
+        params.putLong("usuarioId", usuario.getId());
+        params.putString("usuarioNome", usuario.getNome());
+        params.putString("usuarioLogin", usuario.getLogin());
+        params.putString("usuarioSenha", usuario.getSenha());
+    }
+
 }
