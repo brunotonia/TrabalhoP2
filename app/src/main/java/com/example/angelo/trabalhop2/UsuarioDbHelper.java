@@ -80,7 +80,7 @@ public class UsuarioDbHelper extends SQLiteOpenHelper {
             usuario.setId(cursor.getLong(cursor.getColumnIndex(TreinoContract.UsuarioDb._ID)));
             usuario.setNome(cursor.getString(cursor.getColumnIndex(TreinoContract.UsuarioDb.COLUMN_NOME)));
             usuario.setLogin(cursor.getString(cursor.getColumnIndex(TreinoContract.UsuarioDb.COLUMN_LOGIN)));
-            usuario.setNome(cursor.getString(cursor.getColumnIndex(TreinoContract.UsuarioDb.COLUMN_SENHA)));
+            usuario.setSenha(cursor.getString(cursor.getColumnIndex(TreinoContract.UsuarioDb.COLUMN_SENHA)));
         }
         return usuario;
     }
