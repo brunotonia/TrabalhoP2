@@ -13,6 +13,8 @@ public class TreinoContract {
         public static final String COLUMN_REPETICAO = "repeticao";
         public static final String COLUMN_CARGA = "carga";
         public static final String COLUMN_INTERVALO = "intervalo";
+        public static final String COLUMN_USUARIO = "usuario";
+        public static final String COLUMN_DATA = "data";
     }
 
     public static abstract class UsuarioDb implements BaseColumns {

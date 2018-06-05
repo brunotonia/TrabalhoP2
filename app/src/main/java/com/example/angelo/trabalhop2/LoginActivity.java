@@ -53,7 +53,7 @@ public class LoginActivity extends Activity {
             Toast.makeText(context, "id " + usuario.getId() + "!", Toast.LENGTH_LONG).show();
             if (usuario.getId() != -1L) {
                 Toast.makeText(context, "Bem Vindo " + usuario.getNome() + "!", Toast.LENGTH_LONG).show();
-                ir_calendario(this, usuario);
+                ir_calendario(this);
             } else {
                 Toast.makeText(context, "Usuário ou Senha incorretos", Toast.LENGTH_LONG).show();
             }
@@ -63,7 +63,7 @@ public class LoginActivity extends Activity {
     }
 
     /* Método para ir a tela Calendário */
-    private void ir_calendario (Context context, Usuario usuario) {
+    private void ir_calendario (Context context) {
         carregarParams();
         /* iniciando nova tela*/
         Intent iLogin = new Intent(this, CalendarioActivity.class);

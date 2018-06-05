@@ -1,6 +1,7 @@
 package com.example.angelo.trabalhop2;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -28,6 +29,7 @@ public class CalendarioActivity extends Activity {
     private Intent it = null;
     private Bundle params = null;
     private Usuario usuario;
+    private Long data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class CalendarioActivity extends Activity {
 
         calendario = (CalendarView)findViewById(R.id.calendarView);
         calendario.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+
             @Override
             public void onSelectedDayChange(@NonNull final CalendarView view, int year, int month, int dayOfMonth) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(CalendarioActivity.this);
@@ -56,16 +59,29 @@ public class CalendarioActivity extends Activity {
                 itens[1]="Consulta treino";
                 itens[2]="Cancelar";
 
-                final int dia, mes, ano;
+                /*final int dia, mes, ano;
                 dia = dayOfMonth;
                 mes = month+1;
-                ano = year;
+                ano = year;*/
 
                 builder.setTitle("Selecione uma opção").setItems(itens, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        // carrega valor da data
+                        data = calendario.getDate();
+                        // usa um switch fica melhor o código
+                        switch (which) {
+                            case 0:
+                                ir_addActivity(CalendarioActivity.this);
+                                break;
+                            case 1:
+                                visualizarTreino(view);
+                                break;
+                            case 2:
+                                break;
+                        }
 
-                        if (which==0){
+                        /*if (which==0){
                             Intent intent = new Intent(getApplicationContext(), AddActivity.class);
                             Bundle bundle = new Bundle();
                             bundle.putInt("dia", dia);
@@ -77,20 +93,24 @@ public class CalendarioActivity extends Activity {
                             visualizarTreino(view);
                         } else{
                             return;
-                        }
+                        }*/
                     }
                 });
                 AlertDialog dialog = builder.create();
                 dialog.show();
                 // um toast pra ver o "id" da data, vai ter que refazer as tabelas com um long contendo a data
-                Toast.makeText(CalendarioActivity.this, new Long(calendario.getDate()).toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(CalendarioActivity.this,
+                        new Long(calendario.getDate()).toString(), Toast.LENGTH_LONG).show();
             }
         });
     }
 
+    /* Visualizar Treino */
     public void visualizarTreino(View view){
         ListView lista = (ListView) findViewById(R.id.ltvListaTreino);
-        ArrayAdapter<Treino> arrayAd = new ArrayAdapter<Treino>(getApplicationContext(), android.R.layout.simple_list_item_1, base.consultarTreino());
+        // TODO alterar função base.consultarTreino()
+        ArrayAdapter<Treino> arrayAd = new ArrayAdapter<Treino>(getApplicationContext(),
+                android.R.layout.simple_list_item_1, base.consultarTreino());
         lista.setAdapter(arrayAd);
     }
 
@@ -102,6 +122,7 @@ public class CalendarioActivity extends Activity {
                 params.getString("usuarioLogin"), params.getString("usuarioSenha"));
     }
 
+    /* Carregar params */
     private void carregarParams() {
         params = new Bundle();
         /* carregando paramentros de uma tela a outra */
@@ -110,7 +131,15 @@ public class CalendarioActivity extends Activity {
         params.putString("usuarioLogin", usuario.getLogin());
         params.putString("usuarioSenha", usuario.getSenha());
         /* Adicionar data para cadastrar e buscar */
+        params.putLong("treinoData", data);
     }
 
+    private void ir_addActivity (Context context) {
+        carregarParams();
+        /* iniciando nova tela*/
+        Intent iAddActivity = new Intent(this, AddActivity.class);
+        iAddActivity.putExtras(params);
+        startActivity(iAddActivity);
+    }
 
 }

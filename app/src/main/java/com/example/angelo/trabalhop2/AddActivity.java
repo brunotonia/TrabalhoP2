@@ -1,5 +1,6 @@
 package com.example.angelo.trabalhop2;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,9 +10,15 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class AddActivity extends AppCompatActivity implements View.OnClickListener {
+
     private TreinoDbHelper base;
     private EditText exercicio, repeticao, carga, intervalo;
     private Button salvar, cancelar;
+    /* Variáveis Globais */
+    private Intent it = null;
+    private Bundle params = null;
+    private Usuario usuario;
+    private Long data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
