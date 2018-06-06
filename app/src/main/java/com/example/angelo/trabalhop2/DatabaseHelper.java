@@ -6,11 +6,16 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.util.ArrayList;
-
-public class UsuarioDbHelper extends SQLiteOpenHelper {
+public class DatabaseHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "Usuario.db";
+    public static final String DATABASE_NAME = "Treino.db";
+
+    /* Cria Tabela usuarioCategoria */
+    private static final String CREATECATEGORIA = "create table " + TreinoContract.UsuarioCategoriaDb.TABLE_NAME + "( "
+            + TreinoContract.UsuarioCategoriaDb._ID + " integer primary key autoincrement, "
+            + TreinoContract.UsuarioCategoriaDb.COLUMN_DESCRICAO + " text)";
+
+    private static final String DELETECATEGORIA = "drop table if exists " + TreinoContract.UsuarioDb.TABLE_NAME;
 
     private static final String CREATEUSUARIO = "create table " + TreinoContract.UsuarioDb.TABLE_NAME + "( "
             + TreinoContract.UsuarioDb._ID + " integer primary key autoincrement, "
@@ -20,25 +25,22 @@ public class UsuarioDbHelper extends SQLiteOpenHelper {
 
     private static final String DELETEUSUARIO = "drop table if exists " + TreinoContract.UsuarioDb.TABLE_NAME;
 
-    public UsuarioDbHelper(Context context) {
+
+
+    public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
-
-    /*private static final String CREATECATEGORIA = "create table " + TreinoContract.CategoriaDb.TABLE_NAME + "( "
-            + TreinoContract.CategoriaDb._ID + " integer primary key autoincrement, "
-            + TreinoContract.CategoriaDb.COLUMN_DESCRICAO + " text)";
-    private static final String DELETECATEGORIA = "drop table if exists " + TreinoContract.CategoriaDb.TABLE_NAME;*/
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATEUSUARIO);
-        //db.execSQL(CREATECATEGORIA);
+        db.execSQL(CREATECATEGORIA);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(DELETEUSUARIO);
-        //db.execSQL(DELETECATEGORIA);
+        db.execSQL(DELETECATEGORIA);
     }
 
     @Override
@@ -56,7 +58,6 @@ public class UsuarioDbHelper extends SQLiteOpenHelper {
         contentValues.put(TreinoContract.UsuarioDb.COLUMN_SENHA, usuario.getSenha());
         /* Inserindo no Banco de Dados */
         Long l = db.insert(TreinoContract.UsuarioDb.TABLE_NAME, null, contentValues);
-
         return (l != -1L);
     }
 
@@ -70,7 +71,8 @@ public class UsuarioDbHelper extends SQLiteOpenHelper {
 
         String colunas[] = {TreinoContract.UsuarioDb._ID, TreinoContract.UsuarioDb.COLUMN_NOME,
                 TreinoContract.UsuarioDb.COLUMN_LOGIN, TreinoContract.UsuarioDb.COLUMN_SENHA};
-        String selecao = TreinoContract.UsuarioDb.COLUMN_LOGIN + " =? AND " + TreinoContract.UsuarioDb.COLUMN_SENHA + " =? ";
+        String selecao = TreinoContract.UsuarioDb.COLUMN_LOGIN + " =? AND " + TreinoContract.UsuarioDb.COLUMN_SENHA
+                + " =? ";
         String valores[] = {login,senha};
 
         /* Realizando busca no banco de dados */

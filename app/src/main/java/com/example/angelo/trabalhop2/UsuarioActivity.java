@@ -3,7 +3,6 @@ package com.example.angelo.trabalhop2;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +15,7 @@ import android.widget.Toast;
 // para:
 public class UsuarioActivity extends Activity {
 
-    //private UsuarioDbHelper base;
+    //private DatabaseHelper base;
     private EditText nome, login, senha;
     private Button salvar, cancelar;
 
@@ -26,7 +25,7 @@ public class UsuarioActivity extends Activity {
         setContentView(R.layout.activity_usuario);
 
         /* Inicializa BD */
-        // base = new UsuarioDbHelper(getApplicationContext());
+        // base = new DatabaseHelper(getApplicationContext());
         // não preciso iniciar o banco aqui, no método salvar fica melhor
 
         /* Inicializa Elementos de Tela */
@@ -58,7 +57,7 @@ public class UsuarioActivity extends Activity {
     private void salvar(Context context) {
         Usuario usuario = new Usuario(nome.getText().toString(), login.getText().toString(),senha.getText().toString());
         try {
-            UsuarioDbHelper base = new UsuarioDbHelper(getApplicationContext());
+            DatabaseHelper base = new DatabaseHelper(getApplicationContext());
             boolean resposta = base.salvarUsuario(usuario);
             if (resposta) {
                 /* Exibir Mensagem */

@@ -96,6 +96,8 @@ public class CalendarioActivity extends Activity {
                         }*/
                     }
                 });
+
+
                 AlertDialog dialog = builder.create();
                 dialog.show();
                 // um toast pra ver o "id" da data, vai ter que refazer as tabelas com um long contendo a data

@@ -49,7 +49,7 @@ public class LoginActivity extends Activity {
 
     private void entrar (Context context, String login, String senha) {
         try {
-            usuario = new UsuarioDbHelper(context).login(login, senha);
+            usuario = new DataBaseHelper(context).login(login, senha);
             Toast.makeText(context, "id " + usuario.getId() + "!", Toast.LENGTH_LONG).show();
             if (usuario.getId() != -1L) {
                 Toast.makeText(context, "Bem Vindo " + usuario.getNome() + "!", Toast.LENGTH_LONG).show();

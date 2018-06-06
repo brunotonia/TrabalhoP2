@@ -1,29 +1,35 @@
 package com.example.angelo.trabalhop2;
 
 public class Usuario {
-    private long id;
-    private String nome, login, senha;
-    //private Categoria categoria;
 
-    public Usuario(long id, String nome, String login, String senha) {
+    private Long id;
+    private UsuarioCategoria categoria;
+    private String nome;
+    private String login;
+    private String senha;
+
+    public Usuario(Long id, UsuarioCategoria categoria, String nome, String login, String senha) {
         this.id = id;
+        this.categoria = categoria;
         this.nome = nome;
         this.login = login;
         this.senha = senha;
     }
 
-    public Usuario(String nome, String login, String senha) {
-        this.nome = nome;
-        this.login = login;
-        this.senha = senha;
-    }
-
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public UsuarioCategoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(UsuarioCategoria categoria) {
+        this.categoria = categoria;
     }
 
     public String getNome() {
@@ -49,12 +55,4 @@ public class Usuario {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-
-    /*public Categoria getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }*/
 }

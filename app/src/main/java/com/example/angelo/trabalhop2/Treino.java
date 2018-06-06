@@ -2,57 +2,68 @@ package com.example.angelo.trabalhop2;
 
 public class Treino {
 
-    private long id, usuario, data;
+    private Long id;
+    private Usuario professor;
+    private Usuario aluno;
+    private TreinoCategoria categoria;
+    private Long data;
     private String exercico;
-    private int repeticao, carga, intervalo;
+    private Integer repeticao;
+    private Integer carga;
+    private Integer intervalo;
+    private Boolean realizado;
 
-    // sobrecarga de construtor
-    public Treino(long id, long usuario, long data, String exercico, int repeticao, int carga, int intervalo) {
+    public Treino(Long id, Usuario professor, Usuario aluno, TreinoCategoria categoria, Long data,
+                  String exercico, Integer repeticao, Integer carga, Integer intervalo, Boolean realizado) {
         this.id = id;
-        this.usuario = usuario;
+        this.professor = professor;
+        this.aluno = aluno;
+        this.categoria = categoria;
         this.data = data;
         this.exercico = exercico;
         this.repeticao = repeticao;
         this.carga = carga;
         this.intervalo = intervalo;
+        this.realizado = realizado;
     }
 
-    public Treino(long id, String exercico, int repeticao, int carga, int intervalo) {
-        this.id = id;
-        this.exercico = exercico;
-        this.repeticao = repeticao;
-        this.carga = carga;
-        this.intervalo = intervalo;
-    }
-
-    public Treino(String exercico, int repeticao, int carga, int intervalo) {
-        this.exercico = exercico;
-        this.repeticao = repeticao;
-        this.carga = carga;
-        this.intervalo = intervalo;
-    }
-
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getUsuario() {
-        return usuario;
+    public Usuario getProfessor() {
+        return professor;
     }
 
-    public void setUsuario (long usuario) {
-        this.usuario = usuario;
+    public void setProfessor(Usuario professor) {
+        this.professor = professor;
     }
 
-    public long getData() {
+    public Usuario getAluno() {
+        return aluno;
+    }
+
+    public void setAluno(Usuario aluno) {
+        this.aluno = aluno;
+    }
+
+    public TreinoCategoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(TreinoCategoria categoria) {
+        this.categoria = categoria;
+    }
+
+    public Long getData() {
         return data;
     }
 
-    public void setData (long data) {
+    public void setData(Long data) {
         this.data = data;
     }
 
@@ -64,32 +75,35 @@ public class Treino {
         this.exercico = exercico;
     }
 
-    public int getRepeticao() {
+    public Integer getRepeticao() {
         return repeticao;
     }
 
-    public void setRepeticao(int repeticao) {
+    public void setRepeticao(Integer repeticao) {
         this.repeticao = repeticao;
     }
 
-    public int getCarga() {
+    public Integer getCarga() {
         return carga;
     }
 
-    public void setCarga(int carga) {
+    public void setCarga(Integer carga) {
         this.carga = carga;
     }
 
-    public int getIntervalo() {
+    public Integer getIntervalo() {
         return intervalo;
     }
 
-    public void setIntervalo(int intervalo) {
+    public void setIntervalo(Integer intervalo) {
         this.intervalo = intervalo;
     }
 
-    @Override
-    public String toString() {
-        return exercico + "\n" + repeticao + "\n" + carga + "\n" + intervalo;
+    public Boolean getRealizado() {
+        return realizado;
+    }
+
+    public void setRealizado(Boolean realizado) {
+        this.realizado = realizado;
     }
 }
